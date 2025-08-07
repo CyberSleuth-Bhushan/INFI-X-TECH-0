@@ -277,41 +277,69 @@ const Home: React.FC = () => {
         className="py-20 bg-gray-50"
       >
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <motion.div variants={itemVariants}>
-              <h2 className="text-4xl font-bold text-gray-900 mb-6">
-                About INFI X TECH
-              </h2>
-              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                INFI X TECH is a dynamic community of tech enthusiasts, innovators, and problem-solvers. 
-                We organize cutting-edge hackathons and tech events that bring together brilliant minds 
-                to create solutions for tomorrow's challenges.
-              </p>
-              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                Our mission is to foster innovation, encourage collaboration, and provide a platform 
-                where creativity meets technology. Join us in shaping the future of technology.
-              </p>
-              
-              <div className="grid grid-cols-2 gap-6">
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="text-center p-4 bg-primary-50 rounded-lg"
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <motion.div variants={itemVariants} className="space-y-8">
+              <div>
+                <motion.h2 
+                  className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight"
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6 }}
                 >
-                  <div className="text-3xl font-bold text-primary-600 mb-2">
+                  About <span className="text-primary-600">INFI X TECH</span>
+                </motion.h2>
+                <div className="w-24 h-1 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-full mb-8"></div>
+              </div>
+              
+              <div className="space-y-6">
+                <motion.p 
+                  className="text-base sm:text-lg text-gray-700 leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  INFI X TECH is a <strong className="text-primary-600">dynamic community</strong> of tech enthusiasts, innovators, and problem-solvers. 
+                  We organize cutting-edge hackathons and tech events that bring together brilliant minds 
+                  to create solutions for tomorrow's challenges.
+                </motion.p>
+                <motion.p 
+                  className="text-base sm:text-lg text-gray-700 leading-relaxed"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  Our mission is to <strong className="text-secondary-600">foster innovation</strong>, encourage collaboration, and provide a platform 
+                  where creativity meets technology. Join us in shaping the future of technology.
+                </motion.p>
+              </div>
+              
+              <motion.div 
+                className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-10"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+              >
+                <motion.div
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="text-center p-4 sm:p-6 bg-white rounded-xl shadow-lg border border-primary-100 hover:shadow-xl transition-all duration-300"
+                >
+                  <div className="text-4xl font-bold text-primary-600 mb-3">
                     {loading ? '...' : `${stats.eventsOrganized}+`}
                   </div>
-                  <div className="text-gray-600">Events Organized</div>
+                  <div className="text-gray-700 font-medium">Events Organized</div>
+                  <div className="w-12 h-1 bg-primary-600 rounded-full mx-auto mt-2"></div>
                 </motion.div>
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="text-center p-4 bg-secondary-50 rounded-lg"
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  className="text-center p-4 sm:p-6 bg-white rounded-xl shadow-lg border border-secondary-100 hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="text-3xl font-bold text-secondary-600 mb-2">
+                  <div className="text-4xl font-bold text-secondary-600 mb-3">
                     {loading ? '...' : `${stats.totalParticipants}+`}
                   </div>
-                  <div className="text-gray-600">Participants</div>
+                  <div className="text-gray-700 font-medium">Participants</div>
+                  <div className="w-12 h-1 bg-secondary-600 rounded-full mx-auto mt-2"></div>
                 </motion.div>
-              </div>
+              </motion.div>
             </motion.div>
 
             <motion.div
@@ -323,19 +351,45 @@ const Home: React.FC = () => {
                   y: [0, -10, 0]
                 }}
                 transition={{
-                  duration: 3,
+                  duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="bg-gradient-to-br from-primary-400 to-secondary-600 rounded-2xl p-8 text-white shadow-2xl"
+                className="bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-700 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden"
               >
-                <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
-                <p className="text-lg opacity-90">
-                  To create a world where technology serves humanity, innovation knows no bounds, 
-                  and every idea has the potential to change the world.
-                </p>
+                {/* Background Pattern */}
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>
+                  <div className="absolute bottom-0 right-0 w-24 h-24 bg-white rounded-full translate-x-12 translate-y-12"></div>
+                </div>
+                
+                <div className="relative z-10">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-6"
+                  >
+                    <div className="w-16 h-16 bg-white bg-opacity-20 rounded-2xl flex items-center justify-center mb-4">
+                      <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                    </div>
+                    <h3 className="text-2xl md:text-3xl font-bold mb-4">Our Vision</h3>
+                  </motion.div>
+                  <motion.p 
+                    className="text-lg opacity-95 leading-relaxed"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 0.95, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
+                  >
+                    To create a world where technology serves humanity, innovation knows no bounds, 
+                    and every idea has the potential to change the world.
+                  </motion.p>
+                </div>
               </motion.div>
               
+              {/* Floating Elements */}
               <motion.div
                 animate={{
                   rotate: [0, 360]
@@ -345,7 +399,20 @@ const Home: React.FC = () => {
                   repeat: Infinity,
                   ease: "linear"
                 }}
-                className="absolute -top-4 -right-4 w-16 h-16 bg-yellow-400 rounded-full opacity-20"
+                className="absolute -top-6 -right-6 w-20 h-20 bg-yellow-400 rounded-full opacity-20"
+              ></motion.div>
+              
+              <motion.div
+                animate={{
+                  y: [0, -15, 0],
+                  rotate: [0, 5, 0]
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute -bottom-4 -left-4 w-16 h-16 bg-primary-300 rounded-full opacity-30"
               ></motion.div>
             </motion.div>
           </div>

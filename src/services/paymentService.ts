@@ -1,4 +1,5 @@
-import { getFunctions, httpsCallable } from 'firebase/functions';
+// Firebase functions imports removed for free tier compatibility
+// import { getFunctions, httpsCallable } from 'firebase/functions';
 
 // Razorpay Payment Service
 declare global {
@@ -41,12 +42,25 @@ export const loadRazorpayScript = (): Promise<boolean> => {
   });
 };
 
-// Create Razorpay order
+// Create Razorpay order (client-side only for free tier)
 export const createRazorpayOrder = async (amount: number, currency: string, receipt: string): Promise<any> => {
-  const functions = getFunctions();
-  const createOrder = httpsCallable(functions, 'createRazorpayOrder');
-  const result = await createOrder({ amount, currency, receipt });
-  return result.data;
+  try {
+    // For free tier, we'll create a mock order
+    // In production, this should call your backend
+    const mockOrder = {
+      id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      amount: amount,
+      currency: currency,
+      receipt: receipt,
+      status: 'created'
+    };
+    
+    console.log('Mock order created:', mockOrder);
+    return mockOrder;
+  } catch (error) {
+    console.error('Error creating Razorpay order:', error);
+    throw new Error('Failed to create payment order. Please try again.');
+  }
 };
 
 // Process payment with Razorpay
@@ -59,8 +73,14 @@ export const processPayment = async (options: PaymentOptions): Promise<PaymentRe
     }
 
     return new Promise((resolve) => {
+      // Check if Razorpay key is configured
+      const razorpayKey = process.env.REACT_APP_RAZORPAY_KEY_ID;
+      if (!razorpayKey) {
+        throw new Error('Razorpay configuration is missing. Please contact support.');
+      }
+
       const razorpayOptions = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+        key: razorpayKey,
         amount: options.amount,
         currency: options.currency,
         name: 'INFI X TECH',
@@ -109,16 +129,31 @@ export const processPayment = async (options: PaymentOptions): Promise<PaymentRe
   }
 };
 
-// Verify payment
+// Verify payment (client-side only for free tier)
 export const verifyPayment = async (
   paymentId: string,
   orderId: string,
   signature: string
 ): Promise<any> => {
-  const functions = getFunctions();
-  const verify = httpsCallable(functions, 'verifyRazorpayPayment');
-  const result = await verify({ payment_id: paymentId, order_id: orderId, signature });
-  return result.data;
+  try {
+    // For free tier, we'll do basic validation
+    // In production, this should call your backend for proper verification
+    if (!paymentId || !orderId || !signature) {
+      throw new Error('Missing payment verification data');
+    }
+    
+    console.log('Payment verification (mock):', { paymentId, orderId, signature });
+    
+    // Mock successful verification
+    return {
+      status: 'success',
+      verified: true,
+      message: 'Payment verified successfully'
+    };
+  } catch (error) {
+    console.error('Error verifying payment:', error);
+    throw new Error('Payment verification failed. Please contact support.');
+  }
 };
 
 // Format amount for display

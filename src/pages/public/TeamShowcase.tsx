@@ -9,6 +9,35 @@ const TeamShowcase: React.FC = () => {
   const [admin, setAdmin] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Helper function to check if user has valid social links
+  const hasValidSocialLinks = (socialLinks: any): boolean => {
+    console.log('🔍 Checking social links:', socialLinks);
+    
+    if (!socialLinks) {
+      console.log('❌ No social links object');
+      return false;
+    }
+
+    const hasLinkedIn = socialLinks.linkedin && socialLinks.linkedin.trim() !== "";
+    const hasGitHub = socialLinks.github && socialLinks.github.trim() !== "";
+    const hasTwitter = socialLinks.twitter && socialLinks.twitter.trim() !== "";
+    const hasInstagram = socialLinks.instagram && socialLinks.instagram.trim() !== "";
+    const hasPortfolio = socialLinks.portfolio && socialLinks.portfolio.trim() !== "";
+
+    console.log('🔍 Social links validation:', {
+      linkedin: hasLinkedIn,
+      github: hasGitHub,
+      twitter: hasTwitter,
+      instagram: hasInstagram,
+      portfolio: hasPortfolio
+    });
+
+    const hasAnyValidLinks = hasLinkedIn || hasGitHub || hasTwitter || hasInstagram || hasPortfolio;
+    console.log('✅ Has valid social links:', hasAnyValidLinks);
+
+    return hasAnyValidLinks;
+  };
+
   const getRole = (name: string): string => {
     const roles: { [key: string]: string } = {
       "Bhushan Barun Mallick": "Leader",
@@ -209,20 +238,12 @@ const TeamShowcase: React.FC = () => {
             updatedAt: adminData.updatedAt?.toDate() || new Date(),
             isActive:
               adminData.isActive !== undefined ? adminData.isActive : true,
-            // Prioritize Firebase social links, fallback to defaults
+            // Only use social links if they exist in Firebase
             socialLinks: {
-              linkedin:
-                adminData.socialLinks?.linkedin ||
-                "https://www.linkedin.com/in/bhushan-mallick/",
-              github:
-                adminData.socialLinks?.github ||
-                "https://github.com/CyberSleuth-Bhushan",
-              twitter:
-                adminData.socialLinks?.twitter ||
-                "https://x.com/BhushanMallick6",
-              instagram:
-                adminData.socialLinks?.instagram ||
-                "https://www.instagram.com/bhushan.98_xz_/",
+              linkedin: adminData.socialLinks?.linkedin || "",
+              github: adminData.socialLinks?.github || "",
+              twitter: adminData.socialLinks?.twitter || "",
+              instagram: adminData.socialLinks?.instagram || "",
               portfolio: adminData.socialLinks?.portfolio || "",
             },
             profilePhotoUrl: "/assets/images/Bhushan.jpg",
@@ -262,10 +283,11 @@ const TeamShowcase: React.FC = () => {
           isFirstLogin: false,
           profilePhotoUrl: "/assets/images/Bhushan.jpg",
           socialLinks: {
-            linkedin: "https://www.linkedin.com/in/bhushan-mallick/",
-            github: "https://github.com/CyberSleuth-Bhushan",
-            twitter: "https://x.com/BhushanMallick6",
-            instagram: "https://www.instagram.com/bhushan.98_xz_/",
+            linkedin: "",
+            github: "",
+            twitter: "",
+            instagram: "",
+            portfolio: "",
           },
           isActive: true,
           createdAt: new Date(),
@@ -308,7 +330,7 @@ const TeamShowcase: React.FC = () => {
               data.createdAt?.toDate()
             );
 
-            return {
+            const memberData = {
               ...data,
               uid: doc.id,
               createdAt: data.createdAt?.toDate() || new Date(),
@@ -320,6 +342,16 @@ const TeamShowcase: React.FC = () => {
                 data.personalDetails?.name || ""
               ),
             };
+
+            console.log(
+              `📊 Member ${data.personalDetails?.name}:`,
+              {
+                socialLinks: data.socialLinks,
+                createdAt: data.createdAt,
+                hasValidSocialLinks: hasValidSocialLinks(data.socialLinks || {})
+              }
+            );
+            return memberData;
           }) as User[];
 
           console.log("Firebase members data processed:", membersData.length);
@@ -1076,17 +1108,12 @@ const TeamShowcase: React.FC = () => {
                     </p>
 
                     {/* Social Media Links */}
-                    {member.socialLinks &&
-                      Object.keys(member.socialLinks).some(
-                        (key) =>
-                          member.socialLinks![
-                            key as keyof typeof member.socialLinks
-                          ]
-                      ) && (
-                        <div className="flex justify-center space-x-3 mb-4">
-                          {member.socialLinks.linkedin && (
+                    {hasValidSocialLinks(member.socialLinks) && (
+                      <div className="flex justify-center space-x-3 mb-4">
+                        {member.socialLinks?.linkedin &&
+                          member.socialLinks.linkedin.trim() !== "" && (
                             <motion.a
-                              href={member.socialLinks.linkedin}
+                              href={member.socialLinks?.linkedin}
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.1, y: -2 }}
@@ -1103,9 +1130,10 @@ const TeamShowcase: React.FC = () => {
                               </svg>
                             </motion.a>
                           )}
-                          {member.socialLinks.github && (
+                        {member.socialLinks?.github &&
+                          member.socialLinks.github.trim() !== "" && (
                             <motion.a
-                              href={member.socialLinks.github}
+                              href={member.socialLinks?.github}
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.1, y: -2 }}
@@ -1122,9 +1150,10 @@ const TeamShowcase: React.FC = () => {
                               </svg>
                             </motion.a>
                           )}
-                          {member.socialLinks.twitter && (
+                        {member.socialLinks?.twitter &&
+                          member.socialLinks.twitter.trim() !== "" && (
                             <motion.a
-                              href={member.socialLinks.twitter}
+                              href={member.socialLinks?.twitter}
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.1, y: -2 }}
@@ -1141,9 +1170,10 @@ const TeamShowcase: React.FC = () => {
                               </svg>
                             </motion.a>
                           )}
-                          {member.socialLinks.instagram && (
+                        {member.socialLinks?.instagram &&
+                          member.socialLinks.instagram.trim() !== "" && (
                             <motion.a
-                              href={member.socialLinks.instagram}
+                              href={member.socialLinks?.instagram}
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.1, y: -2 }}
@@ -1160,9 +1190,10 @@ const TeamShowcase: React.FC = () => {
                               </svg>
                             </motion.a>
                           )}
-                          {member.socialLinks.portfolio && (
+                        {member.socialLinks?.portfolio &&
+                          member.socialLinks.portfolio.trim() !== "" && (
                             <motion.a
-                              href={member.socialLinks.portfolio}
+                              href={member.socialLinks?.portfolio}
                               target="_blank"
                               rel="noopener noreferrer"
                               whileHover={{ scale: 1.1, y: -2 }}
@@ -1179,8 +1210,8 @@ const TeamShowcase: React.FC = () => {
                               </svg>
                             </motion.a>
                           )}
-                        </div>
-                      )}
+                      </div>
+                    )}
 
                     <p className="text-gray-500 text-xs">
                       Joined {member.createdAt.toLocaleDateString()}
