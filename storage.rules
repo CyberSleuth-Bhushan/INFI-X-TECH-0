@@ -1,0 +1,63 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function hasRole(role) {
+      return isAuthenticated() && 
+             firestore.exists(/databases/(default)/documents/users/$(request.auth.uid)) &&
+             firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+    
+    function isAdmin() {
+      return hasRole('admin');
+    }
+    
+    function isMember() {
+      return hasRole('member');
+    }
+    
+    function isValidImageFile() {
+      return resource.contentType.matches('image/.*') &&
+             resource.size < 5 * 1024 * 1024; // 5MB limit
+    }
+    
+    // Profile photos - users can upload their own profile photos
+    match /profile-photos/{userId}/{fileName} {
+      // Users can upload their own profile photos
+      allow write: if isOwner(userId) && 
+                   request.resource.contentType.matches('image/.*') &&
+                   request.resource.size < 5 * 1024 * 1024; // 5MB limit
+      
+      // Users can read their own profile photos, and other authenticated users can read member profile photos
+      allow read: if isOwner(userId) || (isAuthenticated() && 
+                 firestore.exists(/databases/(default)/documents/users/$(userId)) &&
+                 firestore.get(/databases/(default)/documents/users/$(userId)).data.role == 'member');
+    }
+    
+    // Event images - only admin can manage
+    match /event-images/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin() && isValidImageFile();
+    }
+    
+    // General uploads - admin only
+    match /uploads/{fileName} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    // Deny all other access
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

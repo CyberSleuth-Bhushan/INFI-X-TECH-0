@@ -1,0 +1,153 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    function hasRole(role) {
+      return isAuthenticated() && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == role;
+    }
+    
+    function isAdmin() {
+      return hasRole('admin');
+    }
+    
+    function isMember() {
+      return hasRole('member');
+    }
+    
+    function isParticipant() {
+      return hasRole('participant');
+    }
+    
+    function isManager() {
+      return hasRole('manager');
+    }
+    
+    // Users collection rules
+    match /users/{userId} {
+      // Users can read and write their own data
+      allow read, write: if isOwner(userId);
+      
+      // Admin can read and write all user data
+      allow read, write: if isAdmin();
+      
+      // Members can read other member's displayName and photoURL (for team showcase)
+      allow read: if isMember() && resource.data.role == 'member' &&
+                    request.query.keys.hasOnly(['displayName', 'photoURL']);
+      
+      // Allow user creation during registration (before role is set)
+      allow create: if isAuthenticated() && 
+                   request.auth.uid == userId &&
+                   request.resource.data.role == 'participant';
+    }
+    
+    // Events collection rules
+    match /events/{eventId} {
+      // All authenticated users can read events
+      allow read: if isAuthenticated();
+      
+      // Admin can create, update, or delete events
+      allow write: if isAdmin();
+      
+      // Manager can create and update events, but not delete
+      allow create, update: if isManager();
+    }
+    
+    // Registrations collection rules
+    match /registrations/{registrationId} {
+      // Participants can read and create their own registrations
+      allow read, create: if isAuthenticated() && 
+                         request.resource.data.participantId == request.auth.uid;
+      
+      // Participants can update their own registrations
+      allow update: if isAuthenticated() && 
+                   resource.data.participantId == request.auth.uid;
+      
+      // Admin can read and manage all registrations
+      allow read, write: if isAdmin();
+      
+      // Prevent participants from modifying other participants' registrations
+      
+    }
+    
+    // Updates collection rules
+    match /updates/{updateId} {
+      // All users can read published updates
+      allow read: if resource.data.status == 'published';
+      
+      // Admin can manage all updates (full access)
+      allow read, write: if isAdmin();
+      
+      // Manager can read all updates and create/update their own
+      allow read: if isManager();
+      allow create: if isManager() && request.resource.data.authorId == request.auth.uid;
+      allow update: if isManager() && resource.data.authorId == request.auth.uid;
+    }
+    
+    // Activity logs collection rules
+    match /activityLogs/{logId} {
+      // Admin can manage all activity logs
+      allow read, write: if isAdmin();
+      
+      // Manager and admin can create activity logs
+      allow create: if isManager() || isAdmin();
+    }
+    
+    // Notifications collection rules
+    match /notifications/{notificationId} {
+      // Users can read notifications targeted to their role
+      allow read: if isAuthenticated() && 
+                 request.auth.uid != null &&
+                 exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+                 get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in resource.data.targetRoles;
+      
+      // Admin can manage all notifications
+      allow read, write: if isAdmin();
+      
+      // Manager can create and read notifications
+      allow create, read: if isManager();
+    }
+    
+    // Grievances collection rules
+    match /grievances/{grievanceId} {
+      // Participants can read and create their own grievances
+      allow read, create: if isParticipant() && 
+                         request.resource.data.participantId == request.auth.uid;
+      
+      // Participants can read their own existing grievances
+      allow read: if isParticipant() && 
+                 resource.data.participantId == request.auth.uid;
+      
+      // Admin and Manager can read and manage all grievances
+      allow read, write: if isAdmin() || isManager();
+    }
+    
+    // Team Chat collection rules
+    match /teamChat/{messageId} {
+      // All authenticated users can read and create messages
+      allow read, create: if isAuthenticated();
+      
+      // Users can only update their own messages
+      allow update: if isAuthenticated() && 
+                   resource.data.senderId == request.auth.uid;
+      
+      // Admin can manage all messages
+      allow read, write: if isAdmin();
+    }
+    
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

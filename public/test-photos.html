@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Photos Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .photo-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #3B82F6;
+            margin-bottom: 10px;
+        }
+        .photo-error {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #EF4444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin: 0 auto 10px;
+        }
+        .status {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .success { background: #10B981; color: white; }
+        .error { background: #EF4444; color: white; }
+        h1 { color: #333; text-align: center; }
+        h2 { color: #666; margin-top: 30px; }
+    </style>
+</head>
+<body>
+    <h1>🖼️ Team Photos Test Page</h1>
+    <p>This page tests if all team photos are accessible and loading correctly.</p>
+    
+    <h2>👑 Admin Photo</h2>
+    <div class="photo-grid">
+        <div class="photo-card">
+            <img 
+                src="/assets/images/team/Bhushan.jpg" 
+                alt="Bhushan Barun Mallick"
+                class="photo"
+                onload="this.nextElementSibling.textContent = '✅ Loaded'; this.nextElementSibling.className = 'status success';"
+                onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent = '❌ Failed'; this.nextElementSibling.className = 'status error';"
+            >
+            <div class="status">Loading...</div>
+            <div class="photo-error" style="display: none;">BM</div>
+            <h3>Bhushan Barun Mallick</h3>
+            <p>Leader</p>
+        </div>
+    </div>
+
+    <h2>👥 Team Members</h2>
+    <div class="photo-grid">
+        <div class="photo-card">
+            <img 
+                src="/assets/images/team/devesh.jpg" 
+                alt="Devesh Rahangdale"
+                class="photo"
+                onload="this.nextElementSibling.textContent = '✅ Loaded'; this.nextElementSibling.className = 'status success';"
+                onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent = '❌ Failed'; this.nextElementSibling.className = 'status error';"
+            >
+            <div class="status">Loading...</div>
+            <div class="photo-error" style="display: none;">DR</div>
+            <h3>Devesh Rahangdale</h3>
+            <p>Researcher</p>
+        </div>
+
+        <div class="photo-card">
+            <img 
+                src="/assets/images/team/pranav.jpg" 
+                alt="Pranav Anand Deshpande"
+                class="photo"
+                onload="this.nextElementSibling.textContent = '✅ Loaded'; this.nextElementSibling.className = 'status success';"
+                onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent = '❌ Failed'; this.nextElementSibling.className = 'status error';"
+            >
+            <div class="status">Loading...</div>
+            <div class="photo-error" style="display: none;">PAD</div>
+            <h3>Pranav Anand Deshpande</h3>
+            <p>Hardware Specialist</p>
+        </div>
+
+        <div class="photo-card">
+            <img 
+                src="/assets/images/team/samiksha.jpg" 
+                alt="Samiksha Wasnik"
+                class="photo"
+                onload="this.nextElementSibling.textContent = '✅ Loaded'; this.nextElementSibling.className = 'status success';"
+                onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent = '❌ Failed'; this.nextElementSibling.className = 'status error';"
+            >
+            <div class="status">Loading...</div>
+            <div class="photo-error" style="display: none;">SW</div>
+            <h3>Samiksha Wasnik</h3>
+            <p>Crafting</p>
+        </div>
+
+        <div class="photo-card">
+            <img 
+                src="/assets/images/team/sneha.jpg" 
+                alt="Sneha Deherarkar"
+                class="photo"
+                onload="this.nextElementSibling.textContent = '✅ Loaded'; this.nextElementSibling.className = 'status success';"
+                onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent = '❌ Failed'; this.nextElementSibling.className = 'status error';"
+            >
+            <div class="status">Loading...</div>
+            <div class="photo-error" style="display: none;">SD</div>
+            <h3>Sneha Deherarkar</h3>
+            <p>Presentation</p>
+        </div>
+
+        <div class="photo-card">
+            <img 
+                src="/assets/images/team/ujwal.jpg" 
+                alt="Ujwal Vilas Didhate"
+                class="photo"
+                onload="this.nextElementSibling.textContent = '✅ Loaded'; this.nextElementSibling.className = 'status success';"
+                onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent = '❌ Failed'; this.nextElementSibling.className = 'status error';"
+            >
+            <div class="status">Loading...</div>
+            <div class="photo-error" style="display: none;">UVD</div>
+            <h3>Ujwal Vilas Didhate</h3>
+            <p>PPT & Script</p>
+        </div>
+
+        <div class="photo-card">
+            <img 
+                src="/assets/images/team/kanchan.jpg" 
+                alt="Kanchan Rawat"
+                class="photo"
+                onload="this.nextElementSibling.textContent = '✅ Loaded'; this.nextElementSibling.className = 'status success';"
+                onerror="this.style.display='none'; this.nextElementSibling.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent = '❌ Failed'; this.nextElementSibling.className = 'status error';"
+            >
+            <div class="status">Loading...</div>
+            <div class="photo-error" style="display: none;">KR</div>
+            <h3>Kanchan Rawat</h3>
+            <p>Presentation Head</p>
+        </div>
+    </div>
+
+    <h2>📋 Instructions</h2>
+    <ol>
+        <li><strong>Check Status:</strong> Each photo should show "✅ Loaded" if successful</li>
+        <li><strong>Failed Photos:</strong> Will show "❌ Failed" and display initials instead</li>
+        <li><strong>Open Console:</strong> Press F12 to see any error messages</li>
+        <li><strong>Network Tab:</strong> Check for 404 errors on photo requests</li>
+    </ol>
+
+    <p><strong>Expected Result:</strong> All 7 photos (1 admin + 6 members) should show "✅ Loaded"</p>
+    
+    <p><a href="/team-showcase">← Back to Team Showcase</a></p>
+</body>
+</html>
