@@ -281,78 +281,90 @@ const UserProfile: React.FC = () => {
           </div>
 
           {/* Social Media Links */}
-          {user.socialLinks && Object.values(user.socialLinks).some(link => link) && (
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Social Media Links</h3>
-              <div className="grid md:grid-cols-2 gap-4">
-                {user.socialLinks.linkedin && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
-                    <a 
-                      href={user.socialLinks.linkedin} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate"
-                    >
-                      {user.socialLinks.linkedin}
-                    </a>
-                  </div>
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Social Media Links</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn</label>
+                {user.socialLinks?.linkedin ? (
+                  <a 
+                    href={user.socialLinks.linkedin} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate transition-colors"
+                  >
+                    {user.socialLinks.linkedin}
+                  </a>
+                ) : (
+                  <p className="text-gray-500 bg-gray-50 p-3 rounded-lg">Not provided</p>
                 )}
-                {user.socialLinks.github && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">GitHub</label>
-                    <a 
-                      href={user.socialLinks.github} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate"
-                    >
-                      {user.socialLinks.github}
-                    </a>
-                  </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">GitHub</label>
+                {user.socialLinks?.github ? (
+                  <a 
+                    href={user.socialLinks.github} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate transition-colors"
+                  >
+                    {user.socialLinks.github}
+                  </a>
+                ) : (
+                  <p className="text-gray-500 bg-gray-50 p-3 rounded-lg">Not provided</p>
                 )}
-                {user.socialLinks.twitter && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Twitter</label>
-                    <a 
-                      href={user.socialLinks.twitter} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate"
-                    >
-                      {user.socialLinks.twitter}
-                    </a>
-                  </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Twitter</label>
+                {user.socialLinks?.twitter ? (
+                  <a 
+                    href={user.socialLinks.twitter} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate transition-colors"
+                  >
+                    {user.socialLinks.twitter}
+                  </a>
+                ) : (
+                  <p className="text-gray-500 bg-gray-50 p-3 rounded-lg">Not provided</p>
                 )}
-                {user.socialLinks.instagram && (
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Instagram</label>
-                    <a 
-                      href={user.socialLinks.instagram} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate"
-                    >
-                      {user.socialLinks.instagram}
-                    </a>
-                  </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Instagram</label>
+                {user.socialLinks?.instagram ? (
+                  <a 
+                    href={user.socialLinks.instagram} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate transition-colors"
+                  >
+                    {user.socialLinks.instagram}
+                  </a>
+                ) : (
+                  <p className="text-gray-500 bg-gray-50 p-3 rounded-lg">Not provided</p>
                 )}
-                {user.socialLinks.portfolio && (
-                  <div className="md:col-span-2">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Portfolio</label>
-                    <a 
-                      href={user.socialLinks.portfolio} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate"
-                    >
-                      {user.socialLinks.portfolio}
-                    </a>
-                  </div>
+              </div>
+              
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Portfolio</label>
+                {user.socialLinks?.portfolio ? (
+                  <a 
+                    href={user.socialLinks.portfolio} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:text-blue-800 bg-gray-50 p-3 rounded-lg block truncate transition-colors"
+                  >
+                    {user.socialLinks.portfolio}
+                  </a>
+                ) : (
+                  <p className="text-gray-500 bg-gray-50 p-3 rounded-lg">Not provided</p>
                 )}
               </div>
             </div>
-          )}
+          </div>
 
           {/* Account Details */}
           <div className="bg-white rounded-xl shadow-lg p-6">

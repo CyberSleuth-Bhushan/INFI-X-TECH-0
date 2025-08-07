@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../contexts/AuthContext';
@@ -31,23 +31,26 @@ const AdminProfile: React.FC = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
-  } = useForm<AdminProfileFormData>({
-    defaultValues: {
-      name: user?.personalDetails.name || '',
-      phone: user?.personalDetails.phone || '',
-      dob: user?.personalDetails.dob || '',
-      bio: user?.personalDetails.bio || '',
-      institution: user?.educationalDetails.institution || '',
-      course: user?.educationalDetails.course || '',
-      year: user?.educationalDetails.year || '',
-      linkedin: user?.socialLinks?.linkedin || '',
-      github: user?.socialLinks?.github || '',
-      twitter: user?.socialLinks?.twitter || '',
-      instagram: user?.socialLinks?.instagram || '',
-      portfolio: user?.socialLinks?.portfolio || ''
+    setValue
+  } = useForm<AdminProfileFormData>();
+
+  // Pre-fill form with current user data when component mounts or user changes
+  useEffect(() => {
+    if (user) {
+      setValue('name', user.personalDetails.name || '');
+      setValue('phone', user.personalDetails.phone || '');
+      setValue('dob', user.personalDetails.dob || '');
+      setValue('bio', user.personalDetails.bio || '');
+      setValue('institution', user.educationalDetails?.institution || '');
+      setValue('course', user.educationalDetails?.course || '');
+      setValue('year', user.educationalDetails?.year || '');
+      setValue('linkedin', user.socialLinks?.linkedin || '');
+      setValue('github', user.socialLinks?.github || '');
+      setValue('twitter', user.socialLinks?.twitter || '');
+      setValue('instagram', user.socialLinks?.instagram || '');
+      setValue('portfolio', user.socialLinks?.portfolio || '');
     }
-  });
+  }, [user, setValue]);
 
   const onSubmit = async (data: AdminProfileFormData) => {
     if (!user?.uid) return;
@@ -94,8 +97,13 @@ const AdminProfile: React.FC = () => {
 
       await addDoc(collection(db, 'activityLogs'), activityLog);
 
-      setMessage('Profile updated successfully! Changes will reflect on the team showcase page.');
+      setMessage('Profile updated successfully! Changes will reflect on the team showcase page. Refreshing...');
       setIsEditing(false);
+      
+      // Refresh the page after a short delay to show the success message
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     } catch (error) {
       console.error('Error updating profile:', error);
       setMessage('Failed to update profile. Please try again.');
@@ -105,7 +113,21 @@ const AdminProfile: React.FC = () => {
   };
 
   const handleCancel = () => {
-    reset();
+    // Reset form with current user data
+    if (user) {
+      setValue('name', user.personalDetails.name || '');
+      setValue('phone', user.personalDetails.phone || '');
+      setValue('dob', user.personalDetails.dob || '');
+      setValue('bio', user.personalDetails.bio || '');
+      setValue('institution', user.educationalDetails?.institution || '');
+      setValue('course', user.educationalDetails?.course || '');
+      setValue('year', user.educationalDetails?.year || '');
+      setValue('linkedin', user.socialLinks?.linkedin || '');
+      setValue('github', user.socialLinks?.github || '');
+      setValue('twitter', user.socialLinks?.twitter || '');
+      setValue('instagram', user.socialLinks?.instagram || '');
+      setValue('portfolio', user.socialLinks?.portfolio || '');
+    }
     setIsEditing(false);
     setMessage('');
   };
