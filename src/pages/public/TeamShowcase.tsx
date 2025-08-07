@@ -231,7 +231,10 @@ const TeamShowcase: React.FC = () => {
             "Admin fetched from Firebase:",
             adminUser.personalDetails.name
           );
-          console.log("Admin social links from Firebase:", adminUser.socialLinks);
+          console.log(
+            "Admin social links from Firebase:",
+            adminUser.socialLinks
+          );
         }
       } catch (adminError) {
         console.log("Could not fetch admin from Firebase, using fallback");
@@ -688,11 +691,11 @@ const TeamShowcase: React.FC = () => {
       fetchTeamMembers();
     };
 
-    window.addEventListener('focus', handleFocus);
+    window.addEventListener("focus", handleFocus);
 
     return () => {
       clearInterval(refreshInterval);
-      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener("focus", handleFocus);
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -945,7 +948,7 @@ const TeamShowcase: React.FC = () => {
                                     fill="currentColor"
                                     viewBox="0 0 24 24"
                                   >
-                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-.61.08-1.21.21-1.78L9.99 16v1c0 1.1.9 2 2 2v1.93C7.06 20.44 4 16.63 4 12zm13.89 5.4c-.26-.81-1-1.4-1.89-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41C17.92 5.77 20 8.65 20 12c0 2.08-.81 3.98-2.11 5.4z"/>
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-.61.08-1.21.21-1.78L9.99 16v1c0 1.1.9 2 2 2v1.93C7.06 20.44 4 16.63 4 12zm13.89 5.4c-.26-.81-1-1.4-1.89-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41C17.92 5.77 20 8.65 20 12c0 2.08-.81 3.98-2.11 5.4z" />
                                   </svg>
                                 ),
                                 color: "hover:bg-purple-600",
@@ -1172,7 +1175,7 @@ const TeamShowcase: React.FC = () => {
                                 fill="currentColor"
                                 viewBox="0 0 24 24"
                               >
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-.61.08-1.21.21-1.78L9.99 16v1c0 1.1.9 2 2 2v1.93C7.06 20.44 4 16.63 4 12zm13.89 5.4c-.26-.81-1-1.4-1.89-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41C17.92 5.77 20 8.65 20 12c0 2.08-.81 3.98-2.11 5.4z"/>
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM4 12c0-.61.08-1.21.21-1.78L9.99 16v1c0 1.1.9 2 2 2v1.93C7.06 20.44 4 16.63 4 12zm13.89 5.4c-.26-.81-1-1.4-1.89-1.4h-1v-3c0-.55-.45-1-1-1h-6v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41C17.92 5.77 20 8.65 20 12c0 2.08-.81 3.98-2.11 5.4z" />
                               </svg>
                             </motion.a>
                           )}

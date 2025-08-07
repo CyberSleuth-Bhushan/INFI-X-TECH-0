@@ -119,7 +119,7 @@ const UserProfile: React.FC = () => {
         <h2 className="text-2xl font-bold text-gray-900 mb-4">User Not Found</h2>
         <p className="text-gray-600 mb-6">The requested user profile could not be found.</p>
         <button
-          onClick={() => navigate('/admin/users')}
+          onClick={() => navigate('/admin-dashboard/users')}
           className="btn-primary"
         >
           Back to Users
@@ -134,7 +134,7 @@ const UserProfile: React.FC = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <button
-            onClick={() => navigate('/admin/users')}
+            onClick={() => navigate('/admin-dashboard/users')}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

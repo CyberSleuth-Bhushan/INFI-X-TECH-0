@@ -513,7 +513,7 @@ const UserManagementList: React.FC = () => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate(`/admin/users/${user.uid}`)}
+                    onClick={() => navigate(`/admin-dashboard/users/${user.uid}`)}
                     className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-medium transition-colors"
                   >
                     View Profile
